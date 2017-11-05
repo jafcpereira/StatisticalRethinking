@@ -1,0 +1,193 @@
+---
+title: "Chapter 2 Statistical Rethinking Exercises"
+output: html_notebook
+---
+
+#Easy
+
+##2E1
+The expressions that corresponds to the statement "The probability of Rain
+on Monday" are: Pr(rain|Monday) and Pr(rain,Monday) / Pr(Monday)
+
+##2E2
+The statement that corresponds to Pr(Monday|rain) is "The probability
+that it is Monday, given that it is raining.
+
+##2E3
+Pr(Monday|rain) and Pr(rain|Monday) * Pr(Monday) / Pr(rain)
+
+##2E4
+Given our limited knowledge and the results of the experiment, we believe that the true proportion of water in the globe is 0.7.
+
+#Medium
+
+##2M1
+
+1:
+```{r}
+#Grid approximation with 1000 points
+prior <- rep(1, 1000)
+p_grid <- seq(from=0, to=1, length.out = 1000)
+
+likelihood <- dbinom(3, 3, prob = p_grid)
+
+unstd.posterior <- prior * likelihood
+
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+```{r}
+plot(p_grid, posterior, type="b",
+     ylab="Posterior Probability",
+     xlab = "Probability of Water")
+```
+
+2:
+```{r}
+#Grid approximation with 1000 points
+prior <- rep(1, 1000)
+p_grid <- seq(from=0, to=1, length.out = 1000)
+
+likelihood <- dbinom(3, 4, prob = p_grid)
+
+unstd.posterior <- prior * likelihood
+
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+```{r}
+plot(p_grid, posterior, type="b",
+     ylab="Posterior Probability",
+     xlab = "Probability of Water")
+```
+
+3: 
+```{r}
+#Grid approximation with 1000 points
+prior <- rep(1, 1000)
+p_grid <- seq(from=0, to=1, length.out = 1000)
+
+likelihood <- dbinom(5, 7, prob = p_grid)
+
+unstd.posterior <- prior * likelihood
+
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+```{r}
+plot(p_grid, posterior, type="b",
+     ylab="Posterior Probability",
+     xlab = "Probability of Water")
+```
+
+#2M2
+1:
+```{r}
+prior <- ifelse(p_grid < 0.5, 0, 1)
+p_grid <- seq(from=0, to=1, length.out = 1000)
+
+likelihood <- dbinom(3, 3, prob = p_grid)
+
+unstd.posterior <- prior * likelihood
+
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+```{r}
+plot(p_grid, posterior, type="b",
+     ylab="Posterior Probability",
+     xlab = "Probability of Water")
+```
+
+2:
+```{r}
+prior <- ifelse(p_grid < 0.5, 0, 1)
+p_grid <- seq(from=0, to=1, length.out = 1000)
+
+likelihood <- dbinom(3, 4, prob = p_grid)
+
+unstd.posterior <- prior * likelihood
+
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+```{r}
+plot(p_grid, posterior, type="b",
+     ylab="Posterior Probability",
+     xlab = "Probability of Water")
+```
+
+3: 
+```{r}
+prior <- ifelse(p_grid < 0.5, 0, 1)
+p_grid <- seq(from=0, to=1, length.out = 1000)
+
+likelihood <- dbinom(5, 7, prob = p_grid)
+
+unstd.posterior <- prior * likelihood
+
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+```{r}
+plot(p_grid, posterior, type="b",
+     ylab="Posterior Probability",
+     xlab = "Probability of Water")
+```
+
+
+#2M3
+Pr(water|Earth) = 0.7 so Pr(land|Earth) = 0.3
+Pr(land|Mars) = 1
+
+Pr(Mars) = 0.5
+Pr(Earth) = 0.5
+
+We want Pr(Earth|land):
+
+Pr(Earth|land) = Pr(land|Earth) * Pr(Earth) / Pr(land)
+
+which expands to:
+
+Pr(Earth|land) = Pr(land|Earth) * Pr(Earth) / (Pr(land|Earth) * Pr(Earth) + Pr(land|Mars) * Pr(Mars))
+
+which ends up being:
+
+Pr(Earth|land) = 0.3 * 0.5 /(0.3 * 0.5 + 1 * 0.5)
+
+```{r}
+0.3 * 0.5 /(0.3 * 0.5 +1 * 0.5)
+```
+
+#2M4
+Card1: B/B
+Card2: B/W
+Card3: W/W
+
+If we observed one black side up, there are 2 ways of producing the black side up if we pick the B/B card and one way if we pick the B/W card, so in total, 2 of 3 ways are consistent with the other side of the card being black. The answer is 2/3.
+
+#2M5
+With an extra B/B card:
+
+If we observe one black side up, there are 4 ways of producing the black side up (2 for each B/B card) and 1 for picking the B/W card.
+The total probability that the other side is black is thus:
+4/5
+
+#2M6
+Card1: B/B
+Card2: B/W
+Card3: W/W
+
+Black sides are heavier than cards with white sides so it is less likely that a card with black sides is pulled from the bag.
+
+There are still 2 ways for B/B to produce a black side up, 1 way for B/W and zero ways for W/W.
+But according to the prior information, there is 1 way to get the B/B card, 2 ways to get the B/W card and 3 ways to get the W/W card so:
+
+The total ways for the B/B card to produce a black side up are 2 * 1 and the total ways for the B/W card to produce a black side up are 1 * 2.
+
+So, there are 4 ways total to see a black side up and 2 of these come from the B/B card so:
+
+```{r}
+2/4
+```
+
